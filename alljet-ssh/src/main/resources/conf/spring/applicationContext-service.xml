@@ -43,7 +43,7 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="org.alljet.dome"></context:component-scan>
+	<context:component-scan base-package="org.alljet.web"></context:component-scan>
 
 	<!--<bean id="constantCodeInit" class="com.saic.ebiz.constant.ConstantCodeInit" />-->
 	

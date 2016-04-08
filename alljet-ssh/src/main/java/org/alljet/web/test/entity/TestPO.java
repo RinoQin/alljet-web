@@ -7,7 +7,7 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名             修改时间            版本号                  描述
  */
-package org.alljet.dome.dal.entity;
+package org.alljet.web.test.entity;
 
 import java.util.Date;
 

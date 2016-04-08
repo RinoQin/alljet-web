@@ -7,12 +7,12 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名             修改时间            版本号                  描述
  */
-package org.alljet.dome.controller.test;
+package org.alljet.web.test.controller;
 
 import java.util.List;
 
-import org.alljet.dome.service.test.ITestService;
-import org.alljet.dome.vo.TestVO;
+import org.alljet.web.test.service.ITestService;
+import org.alljet.web.test.vo.TestVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,7 +7,7 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名             修改时间            版本号                  描述
  */
-package org.alljet.dome.service.test.impl;
+package org.alljet.web.test.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +16,9 @@ import java.util.Map;
 import org.alljet.dal.Pagination;
 import org.alljet.dal.PaginationResult;
 import org.alljet.dal.client.IPaginationDalClient;
-import org.alljet.dome.dal.entity.TestPO;
-import org.alljet.dome.service.test.ITestService;
-import org.alljet.dome.vo.TestVO;
+import org.alljet.web.test.entity.TestPO;
+import org.alljet.web.test.service.ITestService;
+import org.alljet.web.test.vo.TestVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,8 @@ public class TestServiceImpl implements ITestService {
 
     /** log */
     private static final Logger log = LoggerFactory.getLogger(TestServiceImpl.class);
+
+    private static final String BASE_SQL_PATH_TEST = "mysql.test.";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -67,20 +69,21 @@ public class TestServiceImpl implements ITestService {
     @Override
     public String callbackTestClient() {
         // String siql1 = "insert t_test(test_name,test_value)values(:testName,:testValue)";
-        String sql = "delete from t_test where test_name=:testName";
+        String sql = BASE_SQL_PATH_TEST + "removeTestByTestName";
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("testName", "1");
-        paramMap.put("testValue", "1");
+        paramMap.put("testName", "page");
+        paramMap.put("testValue", "page13");
         int op = dalClient.execute(sql, paramMap);
-
-        // int op = dalClient.execute(sql, paramMap);
         log.debug("remove count : {}", op);
-        return "Hello!This is AllJet team & this is Dalclient.";
+        throw new RuntimeException("故意来一个异常试试回滚不");
+        // int op = dalClient.execute(sql, paramMap);
+
+        // return "Hello!This is AllJet team & this is Dalclient.";
     }
 
     @Override
     public String testObjectClient() {
-        String sql = "delete from t_test where test_name = :testName";
+        String sql = BASE_SQL_PATH_TEST + "removeTestByTestName";
         TestPO po = new TestPO();
         po.setTestName("2");
         int op = dalClient.execute(sql, po);
@@ -90,7 +93,7 @@ public class TestServiceImpl implements ITestService {
 
     @Override
     public PaginationResult<List<TestVO>> getTestListPage(Pagination pagination, TestVO queryVo) {
-        String sql = "select id,test_name,test_value,create_time from t_test";
+        String sql = BASE_SQL_PATH_TEST + "getTestList";
         PaginationResult<List<TestVO>> resultList = dalClient.queryForList(sql, queryVo, TestVO.class, pagination);
         return resultList;
     }
@@ -100,7 +103,7 @@ public class TestServiceImpl implements ITestService {
      */
     @Override
     public List<TestVO> getTestList(TestVO queryVo) {
-        String sql = "select id,test_name,test_value,create_time from t_test";
+        String sql = BASE_SQL_PATH_TEST + "getTestList";
         List<TestVO> result = dalClient.queryForList(sql, queryVo, TestVO.class, 5);
         return result;
     }
@@ -110,7 +113,7 @@ public class TestServiceImpl implements ITestService {
      */
     @Override
     public List<TestVO> getTestList() {
-        String sql = "select id,test_name,test_value,create_time from t_test";
+        String sql = BASE_SQL_PATH_TEST + "getTestList";
         List<TestVO> result = dalClient.queryForList(sql, new TestVO(), TestVO.class, 5);
         return result;
     }

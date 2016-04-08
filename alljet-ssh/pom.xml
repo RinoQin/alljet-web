@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.alljet</groupId>
-	<artifactId>alljet-ssh</artifactId>
+	<artifactId>alljet-web</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>alljet-ssh</name>
+	<name>alljet-web</name>
 	<url>http://www.alljet.icoc.in/</url>
 	<dependencies>
 		<dependency>
@@ -236,6 +236,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>alljet-ssh</finalName>
+		<finalName>alljet-web</finalName>
 	</build>
 </project>

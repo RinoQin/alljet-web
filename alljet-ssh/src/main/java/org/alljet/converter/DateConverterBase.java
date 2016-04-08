@@ -7,7 +7,7 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名             修改时间            版本号                  描述
  */
-package org.alljet.dome.converter;
+package org.alljet.converter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="mysql.test">
+    <!-- -->
+    <sql id="insertTest">
+        <![CDATA[
+        insert t_test(test_name,test_value,create_time)
+       		values(:testName,:testValue,NOW())
+            ]]>
+    </sql>
+    
+    <!-- -->
+    <sql id="updateTestValueById">
+        <![CDATA[
+        update t_test set test_value=:testValue where id=:id
+            ]]>
+    </sql>
+    
+    <!-- -->
+    <sql id="getTestList">
+        <![CDATA[
+        select 
+        	id,
+        	test_name,
+        	test_value,
+        	create_time 
+        from t_test 
+        where 1=1 
+        <#if id!=null>
+        	and id=:id
+        </#if>
+        <#if testName!=null>
+        	and test_name=:testName
+        </#if>
+        <#if testValue!=null>
+        	and test_value=:testValue
+        </#if>
+            ]]>
+    </sql>
+    
+    <!-- -->
+    <sql id="removeTestByTestName">
+        <![CDATA[
+        delete from t_test where test_name=:testName
+        <#if id!=null>
+        	and id=:id
+        </#if>
+        <#if testValue!=null>
+        	and test_value=:testValue
+        </#if>
+            ]]>
+    </sql>
+</sqlMap>

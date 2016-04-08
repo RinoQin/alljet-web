@@ -77,7 +77,8 @@
             <tx:method name="get*" propagation="NOT_SUPPORTED" read-only="true"/> 
             <tx:method name="find*" propagation="NOT_SUPPORTED" read-only="true"/>  
             <tx:method name="callback*" propagation="REQUIRED"/> 
-            <tx:method name="add*" propagation="REQUIRED"/> 
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="save*" propagation="REQUIRED"/>  
             <tx:method name="update*" propagation="REQUIRED"/>
             <tx:method name="modify*" propagation="REQUIRED"/>
             <tx:method name="delete*" propagation="REQUIRED"/>
@@ -86,7 +87,7 @@
     </tx:advice> 
      
     <aop:config> 
-        <aop:pointcut id="allManagerMethod" expression="execution(* org.alljet.dome..*.*(..))"/> 
+        <aop:pointcut id="allManagerMethod" expression="execution(* org.alljet.web..*.*(..))"/> 
         <aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice"/> 
     </aop:config> 
      

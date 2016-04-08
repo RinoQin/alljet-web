@@ -7,13 +7,13 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名             修改时间            版本号                  描述
  */
-package org.alljet.dome.service.test;
+package org.alljet.web.test.service;
 
 import java.util.List;
 
 import org.alljet.dal.Pagination;
 import org.alljet.dal.PaginationResult;
-import org.alljet.dome.vo.TestVO;
+import org.alljet.web.test.vo.TestVO;
 
 /**
  * 〈一句话功能简述〉<br>

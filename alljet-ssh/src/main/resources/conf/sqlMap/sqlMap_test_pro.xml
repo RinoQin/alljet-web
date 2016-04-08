@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="mysql.testPro">
+    <!-- -->
+    <sql id="callProTest1">
+        <![CDATA[
+        pro_test1
+            ]]>
+    </sql>
+</sqlMap>

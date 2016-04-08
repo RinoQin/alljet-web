@@ -24,9 +24,9 @@
 	<context:property-placeholder location="classpath:application.properties" />
 	<import resource="classpath:conf/spring/applicationContext-service.xml" />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<context:component-scan base-package="org.alljet.dome"></context:component-scan>
-	<context:component-scan base-package="org.alljet.dome.service"></context:component-scan>
-	<context:component-scan base-package="org.alljet.dome.service.impl"></context:component-scan>
+	<context:component-scan base-package="org.alljet.web"></context:component-scan>
+	<context:component-scan base-package="org.alljet.web.*.service"></context:component-scan>
+	<context:component-scan base-package="org.alljet.web.*.service.impl"></context:component-scan>
 	<mvc:annotation-driven conversion-service="conversionService" />
 	<!-- intercepter exclude begin -->
 	<!-- <mvc:interceptors>
@@ -136,10 +136,10 @@
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
-				<bean class="org.alljet.dome.converter.StringDateConverter" />
-				<bean class="org.alljet.dome.converter.DateStringConverter" />
-				<bean class="org.alljet.dome.converter.StringTimestampConverter" />
-				<bean class="org.alljet.dome.converter.TimestampStringConverter" />
+				<bean class="org.alljet.converter.StringDateConverter" />
+				<bean class="org.alljet.converter.DateStringConverter" />
+				<bean class="org.alljet.converter.StringTimestampConverter" />
+				<bean class="org.alljet.converter.TimestampStringConverter" />
 			</list>
 		</property>
 	</bean>
