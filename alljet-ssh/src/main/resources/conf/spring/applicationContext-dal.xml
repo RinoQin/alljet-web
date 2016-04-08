@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:rws="http://code.cn.ibm.com/schema/spring/rws"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   	http://code.cn.ibm.com/schema/spring/rws http://code.cn.ibm.com/schema/spring/rws.xsd
+   	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- DAL客户端接口实现 -->
+	<bean id="dalClient"
+		  class="org.alljet.dal.client.support.PaginationDalClient">
+		<property name="resources" >
+			<list>
+				<value>classpath*:conf/sqlMap/sqlMap_*.xml</value>
+			</list>
+		</property>
+		<!-- 定义默义的数据源 （可以指定原生数据源或读写分离数据源） -->
+		<property name="dataSource" ref="dataSourceOne" />
+	</bean>
+	
+	<bean id="mysqlDialect" class="org.alljet.dal.impl.MySQLDialect" />
+	<bean id="oracleDialect" class="org.alljet.dal.impl.OracleDialect" />
+	<bean id="dialectFactory" class="org.alljet.dal.dialect.DialectFactory">
+		<property name="mapDialect">
+			<map>
+				<entry key="mysql">
+					<ref bean="mysqlDialect" />
+				</entry>
+				<entry key="oracle">
+					<ref bean="oracleDialect" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dataSourceOne" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${alljet.driverClassname}" />
+		<property name="url" value="${alljet.ds.url}" />
+		<property name="username" value="${alljet.ds.username}" />
+		<property name="password" value="${alljet.ds.password}" />
+		<!-- 连接池的最大值 --> 
+		<!-- <property name="maxActive" value="${alljet.ds.maxActive}" /> -->
+		<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 --> 
+		<!-- <property name="maxIdle" value="${alljet.ds.maxIdle}" /> -->
+		<!--  最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+		<!-- <property name="minIdle" value="${alljet.ds.minIdle}" /> -->
+		<!-- <property name="maxWait" value="${alljet.ds.maxWait}" /> -->
+		<!-- <property name="testOnBorrow" value="${alljet.ds.testOnBorrow}" /> -->
+		<!-- <property name="timeBetweenEvictionRunsMillis" value="${alljet.ds.timeBetweenEvictionRunsMillis}" /> -->
+		<!-- <property name="minEvictableIdleTimeMillis" value="${alljet.ds.minEvictableIdleTimeMillis}" />
+		 -->
+	</bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
+    	<property name="dataSource" ref="dataSourceOne" />  
+	</bean> 
+	
+	<bean id="namedParameterJdbcTemplate"
+        class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSourceOne"></constructor-arg>
+    </bean>
+	
+    <bean id="txManager"  
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSourceOne" />  
+    </bean>  
+       
+    <!-- <tx:annotation-driven transaction-manager="txManager" /> -->
+    
+    <!-- 定义事务传播属性 --> 
+    <tx:advice id="txAdvice" transaction-manager="txManager"> 
+        <tx:attributes> 
+            <tx:method name="query*" propagation="NOT_SUPPORTED" read-only="true"/>
+            <tx:method name="get*" propagation="NOT_SUPPORTED" read-only="true"/> 
+            <tx:method name="find*" propagation="NOT_SUPPORTED" read-only="true"/>  
+            <tx:method name="callback*" propagation="REQUIRED"/> 
+            <tx:method name="add*" propagation="REQUIRED"/> 
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="modify*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+        </tx:attributes> 
+    </tx:advice> 
+     
+    <aop:config> 
+        <aop:pointcut id="allManagerMethod" expression="execution(* org.alljet.dome..*.*(..))"/> 
+        <aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice"/> 
+    </aop:config> 
+     
+</beans>

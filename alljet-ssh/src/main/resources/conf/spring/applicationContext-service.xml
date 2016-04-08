@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:p="http://cxf.apache.org/policy" xmlns:ss="http://www.springframework.org/schema/security"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:rws="http://code.cn.ibm.com/schema/spring/rws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd 
+   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+   	http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+   	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+   	http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+   	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+   	http://code.cn.ibm.com/schema/spring/rws http://code.cn.ibm.com/schema/spring/rws.xsd">
+
+	
+
+	<!-- <bean id="configManager4SpringCxj" class="com.ibm.framework.redis.config.spring.ConfigManager4Spring"> 
+		<property name="poolConfig" ref="poolConfigCxj" /> <property name="shardConfig" 
+		ref="shardConfigCxj" /> </bean> -->
+
+	<!-- 字符 -->
+	<!--<bean id="springRedisClientCxj" class="com.ibm.framework.redis.client.impl.spring.SpringRedisClientImpl" 
+		init-method="init"> <property name="configManager4Spring" ref="configManager4SpringCxj"/> 
+		</bean> -->
+	<!-- 二进制 -->
+	<!-- <bean id="springBinaryRedisClientCxj" class="com.ibm.framework.redis.client.impl.spring.SpringBinaryRedisClientImpl" 
+		init-method="init"> <property name="configManager4Spring" ref="configManager4SpringCxj" 
+		/> </bean> -->
+
+    <import resource="classpath:conf/spring/applicationContext-dal.xml" />
+    
+    <!-- 需要替换的redis服务器 -->
+	<!-- <import resource="classpath:applicationContext-redis.xml" /> -->
+	
+	<!-- 新的codis -->
+	<!-- <import resource="classpath:conf/spring/applicationContext-redis-caches.xml" /> -->
+	
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="org.alljet.dome"></context:component-scan>
+
+	<!--<bean id="constantCodeInit" class="com.saic.ebiz.constant.ConstantCodeInit" />-->
+	
+	<!-- 默认线程池 -->
+	<bean id="threadPoolTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="queueCapacity" value="1000" />
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="7" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="7" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="300" />
+		<!-- true使用ThreadPool的shutdownNow()方法来关闭 -->
+		<property name="WaitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
+
+</beans>

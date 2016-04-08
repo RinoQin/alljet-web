@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:p="http://cxf.apache.org/policy" xmlns:ss="http://www.springframework.org/schema/security"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd 
+   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+   	http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+   	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+   	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+   	http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd 
+   	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd 
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:annotation-config />
+	<context:property-placeholder location="classpath:application.properties" />
+	<import resource="classpath:conf/spring/applicationContext-service.xml" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<context:component-scan base-package="org.alljet.dome"></context:component-scan>
+	<context:component-scan base-package="org.alljet.dome.service"></context:component-scan>
+	<context:component-scan base-package="org.alljet.dome.service.impl"></context:component-scan>
+	<mvc:annotation-driven conversion-service="conversionService" />
+	<!-- intercepter exclude begin -->
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="assets/**" />
+			<mvc:exclude-mapping path="WEB-INF/**" />
+			<bean class="com.saic.crm.web.interceptor.SecurityInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+	<!--end -->
+	<!-- ===================== view resovler ===================== -->
+	<bean id="viewResolver" abstract="true">
+		<!-- <property name="attributes">
+			<props> -->
+				<!--<prop key="imgHost">${ebiz.crm.imgHost}</prop> -->
+				<!--<prop key="envName">${ebiz.crm.envName}</prop> -->
+				<!--<prop key="cmsUploadImgPath">${ebiz.csc.cmsUploadImgPath}</prop> -->
+				<!--<prop key="cscDomain">${ebiz.crm.crmDomain}</prop> -->
+		<!-- 	</props>
+		</property> -->
+	</bean>
+	<bean id="jstlViewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+		parent="viewResolver">
+		<property name="order" value="2" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+	</bean>
+	
+	
+	<bean id="freemarkerResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
+		parent="viewResolver">
+		<property name="cache" value="false" />
+		<property name="order" value="1" />
+		<property name="viewNames">
+			<array>
+				<value>*.ftl</value>
+				<value>*.html</value>
+			</array>
+		</property>
+		<property name="requestContextAttribute" value="request" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="allowSessionOverride" value="true" />
+		<property name="contentType" value="text/html;charset=utf-8" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+	</bean>
+	
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<description>Required for Freemarker to work in web tier</description>
+		<property name="configuration" ref="freemarkerConfiguration" />
+	</bean>
+
+	<bean id="freemarkerConfiguration"
+		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<!-- 模板加载路径 -->
+		<property name="templateLoaderPaths">
+			<list>
+				<value>/WEB-INF/html/</value>
+				<value>/WEB-INF/freemarker/</value>
+				<value>classpath:/saic_macro/</value>
+				<value>classpath:/crm_common/</value>
+			</list>
+		</property>
+		<property name="configLocation">
+			<value>classpath:freemarker.properties</value>
+		</property>
+		<!--全局变量部分 -->
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="xml_escape" value-ref="fmXmlEscape" />
+				<entry key="html_escape" value-ref="fmHtmlEscape" />
+				<!-- <entry key="cmsPath" value="${ebiz.crm.cmsPath}" />
+				<entry key="msDomain" value="${ebiz.crm.msDomain}" />
+				<entry key="imgUrl" value-ref="imgUrl" /> -->
+			</map>
+		</property>
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+	
+	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+	<bean id="fmHtmlEscape" class="freemarker.template.utility.HtmlEscape" />
+
+
+	<!-- ===================== view resolver end ====================== -->
+
+	<!-- 文件上传支持 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize">
+			<value>32505856</value><!-- 这里单位是字节，上传文件大小限制为31M，31*1024*1024 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>1048576</value><!-- 缓存大小限制为1M，1*1024*1024 -->
+		</property>
+	</bean>
+
+	<!-- 类型转换支持 -->
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="org.alljet.dome.converter.StringDateConverter" />
+				<bean class="org.alljet.dome.converter.DateStringConverter" />
+				<bean class="org.alljet.dome.converter.StringTimestampConverter" />
+				<bean class="org.alljet.dome.converter.TimestampStringConverter" />
+			</list>
+		</property>
+	</bean>
+
+	
+
+	<!-- ====================== i18n =============================== -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:i18n/messages" />
+	</bean>
+
+
+	<bean name="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource">
+			<ref bean="messageSource" />
+		</property>
+	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+		<property name="defaultLocale" value="zh_CN" />
+	</bean>
+
+
+<bean id="handlerExceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="error/500.html" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">error/500.html</prop>
+				<prop key="java.lang.Throwable">error/500.html</prop>
+			</props>
+		</property>
+		<property name="statusCodes">
+			<props>
+				<prop key="errors/error">500</prop>
+				<prop key="errors/404">404</prop>
+			</props>
+		</property>
+		<property name="warnLogCategory" value="WARN"></property>
+		<!-- 默认HTTP状态码 -->
+		<property name="defaultStatusCode" value="500"></property>
+	</bean>   
+    
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
+    <!--处理静态资源被“/”所拦截的问题-->
+    <mvc:default-servlet-handler/>
+
+	<!--定时任务 -->
+	<!-- <task:annotation-driven/> <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
+		<bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
+		<property name="queueCapacity" value="1000" /> <property name="corePoolSize" 
+		value="10" /> <property name="maxPoolSize" value="10" /> <property name="keepAliveSeconds" 
+		value="300" /> <property name="WaitForTasksToCompleteOnShutdown" value="true" 
+		/> </bean> -->
+</beans>
