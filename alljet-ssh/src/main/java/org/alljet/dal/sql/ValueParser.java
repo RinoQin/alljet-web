@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: ValueParser.java
  * Author:   v_qinyuchen
  * Date:     2016年4月7日 上午11:17:21

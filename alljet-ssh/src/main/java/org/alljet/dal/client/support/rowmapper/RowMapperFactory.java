@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: RowMapperFactory.java
  * Author:   v_qinyuchen
  * Date:     2016年4月6日 下午3:49:32

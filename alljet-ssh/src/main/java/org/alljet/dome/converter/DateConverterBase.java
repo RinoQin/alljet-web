@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: DateConverterBase.java
  * Author:   v_qinyuchen
  * Date:     2016年3月24日 下午6:03:37

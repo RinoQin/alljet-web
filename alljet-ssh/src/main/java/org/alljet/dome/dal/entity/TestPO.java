@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: TestPO.java
  * Author:   v_qinyuchen
  * Date:     2016年3月30日 下午3:33:21

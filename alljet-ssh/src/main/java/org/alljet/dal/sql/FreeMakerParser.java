@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: FreeMakerParser.java
  * Author:   v_qinyuchen
  * Date:     2016年4月8日 下午2:32:48

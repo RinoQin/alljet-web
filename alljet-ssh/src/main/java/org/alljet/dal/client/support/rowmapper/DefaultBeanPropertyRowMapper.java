@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: DefaultBeanPropertyRowMapper.java
  * Author:   v_qinyuchen
  * Date:     2016年4月6日 下午3:51:37
@@ -232,6 +231,7 @@ public class DefaultBeanPropertyRowMapper<T> implements RowMapper<T> {
      * @exception SQLException SQL异常
      * @see java.sql.ResultSetMetaData
      */
+    @Override
     public T mapRow(ResultSet rs, int rowNumber) throws SQLException {
         Assert.state(this.mappedClass != null, "Mapped class was not specified");
         T mappedObject = BeanUtils.instantiate(this.mappedClass);

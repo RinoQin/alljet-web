@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: PaginationDalClient.java
  * Author:   v_qinyuchen
  * Date:     2016年3月30日 下午6:00:07

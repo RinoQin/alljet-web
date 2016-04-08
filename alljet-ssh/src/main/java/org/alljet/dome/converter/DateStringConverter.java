@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: DateStringConverter.java
  * Author:   v_qinyuchen
  * Date:     2016年3月24日 下午6:01:35
@@ -24,6 +23,7 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class DateStringConverter extends DateConverterBase implements Converter<Date, String> {
 
+    @Override
     public String convert(Date source) {
         if (source == null) {
             return "";
