@@ -75,10 +75,9 @@ public class TestServiceImpl implements ITestService {
         paramMap.put("testValue", "page13");
         int op = dalClient.execute(sql, paramMap);
         log.debug("remove count : {}", op);
-        throw new RuntimeException("故意来一个异常试试回滚不");
-        // int op = dalClient.execute(sql, paramMap);
+        // throw new RuntimeException("故意来一个异常试试回滚不");
 
-        // return "Hello!This is AllJet team & this is Dalclient.";
+        return "Hello!This is AllJet team & this is Dalclient.";
     }
 
     @Override
