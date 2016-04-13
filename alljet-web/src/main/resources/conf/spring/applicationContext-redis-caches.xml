@@ -1,37 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://www.springframework.org/schema/beans">
+	xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:cache="http://www.springframework.org/schema/cache">
 
 	<aop:aspectj-autoproxy />
+	<cache:annotation-driven cache-manager="cacheManager"
+		key-generator="redisKeyGenerator" />
 
-	<context:component-scan base-package="com.saic.framework.redis" />
-	<!-- 配置redis连接池信息 -->
-	<bean class="com.saic.framework.redis.config.PoolConfig" id="poolConfigRedis">
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<!-- 最大空闲连接数 -->
-		<property value="60" name="maxIdle" />
+		<property name="maxIdle" value="${redis.maxIdle}" />
 		<!-- 最小空闲连接数 -->
 		<property value="60" name="minIdle" />
+		<!-- jedis2.4.1以下版本配置  <property name="maxActive" value="${redis.maxActive}" />
+		<property name="maxWait" value="${redis.maxWait}" />
+		-->
+		<property name="maxTotal" value="${redis.maxActive}" />
+		<property name="maxWaitMillis" value="${redis.maxWait}" />
 		<!-- 是否测试连接 -->
-		<property value="true" name="testOnBorrow" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
 		<!-- 测试连接后是否返回一个连接 -->
-		<property value="true" name="testOnReturn" />
+		<property name="testOnReturn" value="${redis.pool.testOnReturn}" />
 		<!-- 是否空闲时检测连接 -->
-		<property value="true" name="testWhileIdle" />
+		<property name="testWhileIdle" value="${redis.pool.testWhileIdle}" />
 	</bean>
 
-	<!-- 配置redis客户端 -->
-	<bean class="com.saic.framework.redis.client.impl.RedisClientImpl"
-		id="springRedisClientCrm" init-method="init">
-		<!-- 配置redis引用的链接池配置信息 -->
-		<property name="poolConfig" ref="poolConfigRedis" />
-		<!-- 使用的zookeeper地址信息 -->
-		<property value="${global.codis.zkAddress}" name="zkAddress" />
-		<!-- 按照应用分配的codis名称信息 -->
-		<property value="${global.codis.project.entp}" name="codisProjectName" />
+	<bean id="connectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		 p:pool-config-ref="poolConfig">
+		<!-- p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}"  -->
+		<constructor-arg ref="redisSentinelConfiguration" />
 	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<!-- 手动定义序列化的方法 -->
+		<property name="keySerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<!-- <property name="valueSerializer"> <bean class="org.springframework.data.redis.serializer.JacksonJsonRedisSerializer" 
+			/> </property> -->
+		<property name="hashKeySerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<!-- <property name="hashValueSerializer"> <bean class="org.springframework.data.redis.serializer.JacksonJsonRedisSerializer" 
+			/> </property> -->
+	</bean>
+
+	<bean id="redisSentinelConfiguration"
+        class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+       
+        <property name="master">
+            <bean class="org.springframework.data.redis.connection.RedisNode">
+                <property name="name" value="mymaster"></property>
+            </bean>
+        </property>
+        <property name="sentinels">
+            <set>
+            	<bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.202.128"></constructor-arg> 
+                	<constructor-arg name="port" value="7040"></constructor-arg>                   
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.202.129"></constructor-arg> 
+                	<constructor-arg name="port" value="7041"></constructor-arg>                   
+                </bean>
+            </set>
+        </property>
+   </bean>
+	
+	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+		<constructor-arg ref="redisTemplate" />
+		<property name="defaultExpiration" value="3000" />
+	</bean>
+
+	<bean id="redisKeyGenerator" class="org.alljet.common.key.RedisKeyGenerator"></bean>
+
+
+	<!-- 配置redis客户端 -->
+	<!-- <bean class="com.saic.framework.redis.client.impl.RedisClientImpl" 
+		id="springRedisClientCrm" init-method="init"> -->
+	<!-- 配置redis引用的链接池配置信息 -->
+	<!-- <property name="poolConfig" ref="poolConfigRedis" /> -->
+	<!-- 使用的zookeeper地址信息 -->
+	<!-- <property value="${global.codis.zkAddress}" name="zkAddress" /> -->
+	<!-- 按照应用分配的codis名称信息 -->
+	<!-- <property value="${global.codis.project.entp}" name="codisProjectName" 
+		/> -->
+	<!-- </bean> -->
 
 </beans>

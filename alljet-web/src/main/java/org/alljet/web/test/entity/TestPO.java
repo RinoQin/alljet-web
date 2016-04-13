@@ -9,6 +9,7 @@
  */
 package org.alljet.web.test.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -26,7 +27,11 @@ import javax.persistence.Id;
  * @since [产品/模块版本] （可选）
  */
 @Entity(name = "t_test")
-public class TestPO {
+public class TestPO implements Serializable {
+
+    /**
+     */
+    private static final long serialVersionUID = -4150629542399734424L;
 
     private Long id;
 

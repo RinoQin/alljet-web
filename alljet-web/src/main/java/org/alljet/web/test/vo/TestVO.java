@@ -9,6 +9,8 @@
  */
 package org.alljet.web.test.vo;
 
+import java.io.Serializable;
+
 import org.alljet.web.test.entity.TestPO;
 
 /**
@@ -19,8 +21,11 @@ import org.alljet.web.test.entity.TestPO;
  * @see [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
-public class TestVO extends TestPO {
+public class TestVO extends TestPO implements Serializable {
 
+    /**
+     */
+    private static final long serialVersionUID = -328556489380433323L;
     private int index;
 
     /**

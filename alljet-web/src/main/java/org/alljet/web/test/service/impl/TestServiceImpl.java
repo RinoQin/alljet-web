@@ -22,6 +22,7 @@ import org.alljet.web.test.vo.TestVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -91,9 +92,11 @@ public class TestServiceImpl implements ITestService {
     }
 
     @Override
+    @Cacheable("pageListTestVo")
     public PaginationResult<List<TestVO>> getTestListPage(Pagination pagination, TestVO queryVo) {
         String sql = BASE_SQL_PATH_TEST + "getTestList";
         PaginationResult<List<TestVO>> resultList = dalClient.queryForList(sql, queryVo, TestVO.class, pagination);
+        System.out.println("没走缓存");
         return resultList;
     }
 
@@ -101,6 +104,7 @@ public class TestServiceImpl implements ITestService {
      * {@inheritDoc}
      */
     @Override
+    // @Cacheable("listTestVo")
     public List<TestVO> getTestList(TestVO queryVo) {
         String sql = BASE_SQL_PATH_TEST + "getTestList";
         List<TestVO> result = dalClient.queryForList(sql, queryVo, TestVO.class, 5);
@@ -111,9 +115,35 @@ public class TestServiceImpl implements ITestService {
      * {@inheritDoc}
      */
     @Override
+    @Cacheable("cacheManager")
     public List<TestVO> getTestList() {
         String sql = BASE_SQL_PATH_TEST + "getTestList";
-        List<TestVO> result = dalClient.queryForList(sql, new TestVO(), TestVO.class, 5);
+        List<TestVO> result = dalClient.queryForList(sql, new TestVO(), TestVO.class, 4);
         return result;
     }
+
+    @Override
+    @Cacheable("cacheManager")
+    public String getMessage() {
+        System.out.println("没走缓存");
+        return "Hello!This is AllJet team & this is Dalclient cache.";
+    }
+
+    @Override
+    @Cacheable("cacheManager")
+    public String getMessage2() {
+        System.out.println("没走缓存");
+        return "Hello!This is AllJet team & this is Dalclient & has cache.";
+    }
+
+    @Override
+    @Cacheable("cacheTestVO")
+    public TestPO getTestPOById(Long id) {
+        TestPO vo = new TestPO();
+        vo.setId(id);
+        vo = dalClient.find(TestPO.class, vo);
+        System.out.println("没走缓存");
+        return vo;
+    }
+
 }

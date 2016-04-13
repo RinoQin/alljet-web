@@ -159,7 +159,7 @@ limitations under the License.
 		<appender-ref ref="STDOUT" />
 	</root>
 	
-	<logger name="org.alljet.dome">
+	<logger name="org.alljet.web">
     	<level value="debug" />
 	</logger>
 	<logger name="org.alljet.dal">

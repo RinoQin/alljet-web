@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.alljet.dal.Pagination;
 import org.alljet.dal.PaginationResult;
+import org.alljet.web.test.entity.TestPO;
 import org.alljet.web.test.vo.TestVO;
 
 /**
@@ -97,5 +98,36 @@ public interface ITestService {
      * @since [产品/模块版本](可选)
      */
     PaginationResult<List<TestVO>> getTestListPage(Pagination pagination, TestVO queryVo);
+
+    /**
+     * 功能描述: <br>
+     * 〈功能详细描述〉
+     * 
+     * @return
+     * @see [相关类/方法](可选)
+     * @since [产品/模块版本](可选)
+     */
+    String getMessage();
+
+    /**
+     * 功能描述: <br>
+     * 〈功能详细描述〉
+     * 
+     * @return
+     * @see [相关类/方法](可选)
+     * @since [产品/模块版本](可选)
+     */
+    String getMessage2();
+
+    /**
+     * 功能描述: <br>
+     * 〈功能详细描述〉
+     * 
+     * @param id
+     * @return
+     * @see [相关类/方法](可选)
+     * @since [产品/模块版本](可选)
+     */
+    TestPO getTestPOById(Long id);
 
 }

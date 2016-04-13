@@ -17,7 +17,7 @@
    	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
    	http://code.cn.ibm.com/schema/spring/rws http://code.cn.ibm.com/schema/spring/rws.xsd">
 
-	
+	<context:annotation-config />
 
 	<!-- <bean id="configManager4SpringCxj" class="com.ibm.framework.redis.config.spring.ConfigManager4Spring"> 
 		<property name="poolConfig" ref="poolConfigCxj" /> <property name="shardConfig" 
@@ -33,15 +33,12 @@
 		/> </bean> -->
 
     <import resource="classpath:conf/spring/applicationContext-dal.xml" />
-    
-    <!-- 需要替换的redis服务器 -->
-	<!-- <import resource="classpath:applicationContext-redis.xml" /> -->
 	
 	<!-- 新的codis -->
-	<!-- <import resource="classpath:conf/spring/applicationContext-redis-caches.xml" /> -->
+	<import resource="classpath:conf/spring/applicationContext-redis-caches.xml" />
 	
 
-	<context:annotation-config />
+	
 
 	<context:component-scan base-package="org.alljet.web"></context:component-scan>
 

@@ -11,6 +11,7 @@ package org.alljet.web.test.controller;
 
 import java.util.List;
 
+import org.alljet.web.test.entity.TestPO;
 import org.alljet.web.test.service.ITestService;
 import org.alljet.web.test.vo.TestVO;
 import org.slf4j.Logger;
@@ -40,11 +41,17 @@ public class TestController {
 
     @RequestMapping("/custmGiftRightsList")
     public String custmGiftRightsList(Model model) {
-        String test = testService.callbackTestClient();
+        String test = testService.getMessage();
+        String test2 = testService.getMessage2();
+        TestPO testVo = testService.getTestPOById(42l);
         List<TestVO> list = testService.getTestList();
+        // PaginationResult<List<TestVO>> pageResult = testService.getTestListPage(new Pagination(5, 1), new TestVO());
         log.debug(test);
-        model.addAttribute("hello", test);
+        model.addAttribute("hello", test + "<br>" + test2);
         model.addAttribute("resultlist", list);
+        // model.addAttribute("pageList", pageResult.getR());
+        // model.addAttribute("pagination", pageResult.getPagination());
+        model.addAttribute("testVo", testVo);
         return "test/test.ftl";
     }
 
