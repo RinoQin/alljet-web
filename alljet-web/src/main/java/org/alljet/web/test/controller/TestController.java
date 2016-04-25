@@ -9,7 +9,10 @@
  */
 package org.alljet.web.test.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.alljet.web.test.entity.TestPO;
 import org.alljet.web.test.service.ITestService;
@@ -20,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -53,6 +59,43 @@ public class TestController {
         // model.addAttribute("pagination", pageResult.getPagination());
         model.addAttribute("testVo", testVo);
         return "test/test.ftl";
+    }
+
+    /** 活动明细---批次执行结果统计 */
+    @RequestMapping(value = "/statChartsResult.json", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> statChartsResult(@RequestParam("activityId") Long activityId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String[] xAxisRes = { "短信响应数", "微信响应数", "App响应数", "网页点击量", "下单数" };
+            String[] legends = { "计划", "实际" };
+
+            List<Integer> yAxisExpect = new ArrayList<Integer>();
+            List<Integer> yAxisStat = new ArrayList<Integer>();
+
+            yAxisExpect.add(11);
+            yAxisExpect.add(33);
+            yAxisExpect.add(22);
+            yAxisExpect.add(44);
+            yAxisExpect.add(17);
+
+            yAxisStat.add(18);
+            yAxisStat.add(30);
+            yAxisStat.add(25);
+            yAxisStat.add(44);
+            yAxisStat.add(27);
+
+            map.put("xAxisRes", xAxisRes);
+            map.put("legends", legends);
+            map.put("yAxisExpect", yAxisExpect);
+            map.put("yAxisStat", yAxisStat);
+            map.put("flag", "true");
+        } catch (Exception e) {
+            map.put("flag", "false");
+            log.debug("活动明细---批次执行结果统计失败：{}", e);
+        }
+
+        return map;
     }
 
 }
