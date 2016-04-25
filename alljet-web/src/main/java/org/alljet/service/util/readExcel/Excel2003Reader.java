@@ -286,14 +286,16 @@ public class Excel2003Reader implements HSSFListener {
             lastColumnNumber = -1;
             // 每行结束时， 调用getRows() 方法
             map = rowReader.getRows(sheetIndex, curRow, rowlist);
+            if (Boolean.parseBoolean(map.get("isEmpty").toString())) {
 
-            if (Boolean.parseBoolean(map.get("status").toString())) {
-                succCount++;
             } else {
-                failCount++;
-                msg.append(",").append(map.get("failRecords"));
+                if (Boolean.parseBoolean(map.get("status").toString())) {
+                    succCount++;
+                } else {
+                    failCount++;
+                    msg.append(",").append(map.get("failRecords"));
+                }
             }
-
             // 清空容器
             rowlist.clear();
 
