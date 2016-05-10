@@ -1,3 +1,6 @@
+<#include "/common/top.ftl" />
+<#include "/common/wrapper.ftl" />
+<div id="main" class="wrapper style1">
 <h3>${hello}</h3>
 <table>
 <#list resultlist as results>
@@ -17,6 +20,7 @@
 <span>每页${pagination.pagesize}条，第${pagination.currentPage}页，共${pagination.pageCount}页，共${pagination.totalRows}条</span>
 <#-->
 <div id="chartsBar" style="height:400px;width:1000px"></div>
+</div>
 <script type="text/javascript" src="${request.contextPath}/assets/plugins/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/assets/echarts/echarts.js"></script>
 <script type="text/javascript" src="${request.contextPath}/assets/echarts/esl.js"></script>
@@ -112,3 +116,4 @@ function initCharts(){
  
 }
 </script>
+<#include "/common/base_foot.ftl" />
