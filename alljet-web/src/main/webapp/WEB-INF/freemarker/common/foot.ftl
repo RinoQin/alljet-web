@@ -66,7 +66,7 @@
 						
 					<!-- Copyright -->
 						<div class="copyright">
-							Design: <a href="http://www.alljet.icoc.in/">AllJet office™.</a> Author:<a href="">十七菌不是MADAO的夜飞猫 </a>
+							Design: <a href="http://www.alljet.icoc.in/">&copy;AllJet office™.</a> Author:<a href="">十七菌不是MADAO的夜飞猫 </a>
 						</div>
 
 				</div>

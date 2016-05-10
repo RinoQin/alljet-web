@@ -1,14 +1,16 @@
 <#include "/common/head.ftl" />
 <body class="homepage">
 		<!-- -->
-						<div id="" style="height: 25px;z-index: 9990009;position: fixed;width: 100%;margin: 0px;background-color: #222833;">
-							<div class="container" style="margin-right: 5px;width: 1400px">
-								<span style="color:yellow;font-family:幼圆;">★</span><span style="color:#FFFFFF;font-family:幼圆;cursor:pointer">收藏本站</span>
-								<span style="color:#FFFFFF;font-family:幼圆;margin-left: 1150px;cursor:pointer">登录</span><span style="color:#FFFFFF;">&nbsp;&nbsp;|&nbsp;</span>
-								<span style="color:#FFFFFF;font-family:幼圆;cursor:pointer">注册</span>
-								
-							</div>
-						</div>	
+			<div id="" style="height: 25px;z-index: 9990009;position: fixed;width: 100%;margin: 0px;background-color: #222833;">
+				<div class="container" style="margin-left:50px;margin-right: 5px;width: 100%;">
+					<span style="color:yellow;font-family:幼圆;">★</span><span style="color:#FFFFFF;font-family:幼圆;cursor:pointer">收藏本站</span>
+					<div style="margin-left: 1100px;margin-right: 5px;width: 300px;position:relative;bottom:30px;">
+						<span style="color:#FFFFFF;font-family:幼圆;cursor:pointer;float:right;">登录</span>
+						<span style="color:#FFFFFF;float:right;">&nbsp;&nbsp;|&nbsp;</span>
+						<span style="color:#FFFFFF;font-family:幼圆;cursor:pointer;float:right;">注册</span>
+					</div>		
+				</div>
+			</div>	
 <!-- Header -->
 			<div id="header">
 				
