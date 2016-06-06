@@ -24,6 +24,7 @@
 	<context:property-placeholder location="classpath:application.properties" />
 	<import resource="classpath:conf/spring/applicationContext-service.xml" />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<context:component-scan base-package="org.alljet.api"></context:component-scan>
 	<context:component-scan base-package="org.alljet.web"></context:component-scan>
 	<context:component-scan base-package="org.alljet.web.*.service"></context:component-scan>
 	<context:component-scan base-package="org.alljet.web.*.service.impl"></context:component-scan>
@@ -93,6 +94,7 @@
 			<list>
 				<value>/WEB-INF/html/</value>
 				<value>/WEB-INF/freemarker/</value>
+				<value>/WEB-INF/rest/</value>
 				<value>classpath:/saic_macro/</value>
 				<value>classpath:/crm_common/</value>
 			</list>
@@ -191,10 +193,39 @@
     <mvc:default-servlet-handler/>
 
 	<!--定时任务 -->
-	<!-- <task:annotation-driven/> <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
-		<bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
-		<property name="queueCapacity" value="1000" /> <property name="corePoolSize" 
-		value="10" /> <property name="maxPoolSize" value="10" /> <property name="keepAliveSeconds" 
-		value="300" /> <property name="WaitForTasksToCompleteOnShutdown" value="true" 
-		/> </bean> -->
+	<!-- 定时任务线程池化 -->
+	<!-- <task:executor id="executor" pool-size="10" /> -->
+	<!--  -->
+    <!-- <task:scheduler id="scheduler" pool-size="5" /> -->
+    <!-- 开启这个配置，spring才能识别@Scheduled注解 -->
+    <!-- <task:annotation-driven executor="executor" scheduler="scheduler" />
+     -->
+	<!-- <task:annotation-driven /> -->
+	<!-- 或许配置定时任务线程池话要用到这个东西吧，不太清楚
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
+	 -->
+	<!-- 或许配置定时任务线程池话要用到默认线程池吧
+	<bean id="threadPoolTaskExecutor" 
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
+		<property name="queueCapacity" value="1000" /> 
+		<property name="corePoolSize" value="10" /> 
+		<property name="maxPoolSize" value="10" /> 
+		<property name="keepAliveSeconds" value="300" /> 
+		<property name="WaitForTasksToCompleteOnShutdown" value="true" /> 
+		</bean> -->
+		
+	<!-- 默认线程池 -->
+	<bean id="threadPoolTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="queueCapacity" value="200" />
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="7" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="7" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="300" />
+		<!-- true使用ThreadPool的shutdownNow()方法来关闭 -->
+		<property name="WaitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
 </beans>
