@@ -35,7 +35,7 @@
     <import resource="classpath:conf/spring/applicationContext-dal.xml" />
 	
 	<!-- 新的codis -->
-	<import resource="classpath:conf/spring/applicationContext-redis-caches.xml" />
+	<!-- <import resource="classpath:conf/spring/applicationContext-redis-caches.xml" /> -->
 	
 
 	
