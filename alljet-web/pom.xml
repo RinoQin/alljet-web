@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>4.9</version>
 		</dependency>
 
 
@@ -250,7 +250,93 @@
 			<artifactId>shiro-core</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.glassfish.jersey.ext</groupId> <artifactId>jersey-spring3</artifactId> 
+			<version>${jersey.version}</version> </dependency> -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.containers</groupId> -->
+		<!-- <artifactId>jersey-container-grizzly2-http</artifactId> -->
+		<!-- <version>${jersey.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.containers</groupId> -->
+		<!-- <artifactId>jersey-container-grizzly2-servlet</artifactId> -->
+		<!-- <version>${jersey.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.containers</groupId> -->
+		<!-- <artifactId>jersey-container-jdk-http</artifactId> -->
+		<!-- <version>${jersey.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.containers</groupId> -->
+		<!-- <artifactId>jersey-container-simple-http</artifactId> -->
+		<!-- <version>${jersey.version}</version> -->
+		<!-- </dependency> -->
+
+
+		<!--JAXB API -->
+		<dependency>
+			<groupId>javax.xml.ws</groupId>
+			<artifactId>jaxws-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<!-- Json支持 -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.9.12</version>
+		</dependency>
+
 	</dependencies>
+
+	<properties>
+		<jersey.version>2.16</jersey.version>
+	</properties>
+
+
 	<build>
 		<finalName>alljet-web</finalName>
 	</build>
