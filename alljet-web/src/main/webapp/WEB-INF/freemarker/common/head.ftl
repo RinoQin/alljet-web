@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
+<#include "/common/assign.ftl" />
 <html>
 	<head>
-		<title>AllJet</title>
+		<title>${web_title}</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />

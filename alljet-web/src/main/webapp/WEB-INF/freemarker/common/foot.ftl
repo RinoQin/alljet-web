@@ -1,4 +1,5 @@
 <!-- Footer -->
+<#include "/common/foot_macro.ftl" />
 			<div id="footer">
 				<div class="container">
 
@@ -45,19 +46,19 @@
 									<ul class="contact">
 										<li>
 											<span class="address">Address</span>
-											<span style="color:#FFFFFF;font-family:微软雅黑;">目前在上海还没找好地方</span>
+											<span style="color:#FFFFFF;font-family:微软雅黑;">${foot_address}</span>
 										</li>
 										<li>
 											<span class="mail">Mail</span>
-											<span><a href="#">alljet@163.com</a></span>
+											<span><a href="#">${foot_email}</a></span>
 										</li>
 										<li>
 											<span class="phone">Phone</span>
-											<span>(000) 000-0000</span>
+											<span>${foot_phone}</span>
 										</li>
 										<li>
 											<span class="phone">QQ</span>
-											<span>534700927</span>
+											<span>${foot_qq}</span>
 										</li>
 									</ul>	
 								</section>
@@ -66,11 +67,15 @@
 						
 					<!-- Copyright -->
 						<div class="copyright">
-							Design: <a href="http://www.alljet.icoc.in/">&copy;AllJet office™.</a> Author:<a href="">十七菌不是MADAO的夜飞猫 </a>
+							<@foot_copyright_macro/>
 						</div>
 
 				</div>
 			</div>
+			<script>
+			
+			
+			</script>
 
 	</body>
 </html>

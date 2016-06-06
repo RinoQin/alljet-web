@@ -116,4 +116,4 @@ function initCharts(){
  
 }
 </script>
-<#include "/common/base_foot.ftl" />
+<#include "/common/foot.ftl" />
