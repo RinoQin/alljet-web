@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,10 @@ import org.alljet.dal.PaginationResult;
 import org.alljet.dal.client.IPaginationDalClient;
 import org.alljet.web.test.entity.TestPO;
 import org.alljet.web.test.vo.TestVO;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameter;
@@ -47,6 +51,9 @@ public class DalTest {
 
     @Autowired
     private IPaginationDalClient dalClient;
+
+    /** log */
+    private static final Logger log = LoggerFactory.getLogger(DalTest.class);
 
     /**
      * 执行查询，返回结果集记录数目
@@ -804,4 +811,58 @@ public class DalTest {
         System.out.println(gson.toJson(result));
     }
 
+    /**
+     * 获取当前日期是星期几<br>
+     * 
+     * @param dt
+     * @return 当前日期是星期几
+     */
+    public static int getWeekIntOfDate(Date dt) {
+        // String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        System.out.println(cal.get(Calendar.DAY_OF_WEEK));
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (w < 0)
+            w = 0;
+        return w;
+    }
+
+    /**
+     * 获取当前日期是星期几<br>
+     * 
+     * @param dt
+     * @return 当前日期是星期几
+     */
+    public static String getWeekOfDate(Date dt) {
+        String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (w < 0)
+            w = 0;
+        return weekDays[w];
+    }
+
+    private boolean a;
+
+    public void setA(boolean a) {
+        this.a = a;
+    }
+
+    public boolean isA() {
+        return this.a;
+    }
+
+    @Test
+    public void haha() {
+        log.debug("{}", isA() + "");
+
+    }
+
+    public static void main(String[] args) {
+        // Date now = new Date();
+        // System.out.println(getWeekIntOfDate(now));
+
+    }
 }
