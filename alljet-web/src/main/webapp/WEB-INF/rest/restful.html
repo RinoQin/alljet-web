@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>There is a demo for ronglian-mvc</title>
+<script type="text/javascript" src="${request.contextPath}/assets/plugins/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+function goPut(){
+	var data="{\"id\":\"14\",\"testName\":\"咩哈哈\",\"testValue\":\"xiaoqq\"}";
+	$.ajax({ 
+		url: "${request.contextPath}/api/v2/resource/demo", 
+		type:"PUT",
+		data: data,
+		dataType : 'json',
+        contentType:'application/json',
+		success: function(result){
+	    
+	    	$("#ii").val(result.put);
+	}});
+}
+
+function goGet(){
+	var data={username:"xiaoxiao"};
+	$.ajax({
+		url:"${request.contextPath}/api/v2/resource/demo",
+		data:data,
+		type:"GET",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(result){
+			
+			$("#ii").val(result.get);
+		}
+	});
+}
+
+function goPost(){
+	
+	$.ajax({
+		url:"${request.contextPath}/api/v2/resource/demo/id/4",
+		type:"POST",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(result){
+			
+			$("#ii").val(result.post);
+		}
+	});
+}
+
+function goDelete(){
+	$.ajax({
+		url:"${request.contextPath}/api/v2/resource/demo/del/remove",
+		type:"DELETE",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(result){
+			
+			$("#ii").val(result.del);
+		}
+	});
+}
+</script>
+</head>
+<body>
+
+restful web service：
+<input type="button" value="get" onclick="goGet();">
+<input type="button" value="post" onclick="goPost();">
+<input type="button" value="put" onclick="goPut();">
+<input type="button" value="delete" onclick="goDelete();">
+<br><br>
+result：<input id="ii" >
+</body>
+</html>

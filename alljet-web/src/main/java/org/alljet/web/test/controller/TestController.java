@@ -98,4 +98,10 @@ public class TestController {
         return map;
     }
 
+    @RequestMapping("/restDemo")
+    public String getRestDemo(Model model) {
+
+        return "restful.html";
+    }
+
 }
