@@ -119,20 +119,21 @@ public class TestServiceImpl implements ITestService {
     public List<TestVO> getTestList() {
         String sql = BASE_SQL_PATH_TEST + "getTestList";
         List<TestVO> result = dalClient.queryForList(sql, new TestVO(), TestVO.class, 4);
+        System.out.println("没走缓存4");
         return result;
     }
 
     @Override
     @Cacheable("cacheManager")
     public String getMessage() {
-        System.out.println("没走缓存");
+        System.out.println("没走缓存1");
         return "Hello!This is AllJet team & this is Dalclient cache.";
     }
 
     @Override
     @Cacheable("cacheManager")
     public String getMessage2() {
-        System.out.println("没走缓存");
+        System.out.println("没走缓存2");
         return "Hello!This is AllJet team & this is Dalclient & has cache.";
     }
 
@@ -142,7 +143,7 @@ public class TestServiceImpl implements ITestService {
         TestPO vo = new TestPO();
         vo.setId(id);
         vo = dalClient.find(TestPO.class, vo);
-        System.out.println("没走缓存");
+        System.out.println("没走缓存3");
         return vo;
     }
 

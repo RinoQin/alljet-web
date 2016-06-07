@@ -53,6 +53,7 @@ public class TestController {
         List<TestVO> list = testService.getTestList();
         // PaginationResult<List<TestVO>> pageResult = testService.getTestListPage(new Pagination(5, 1), new TestVO());
         log.debug(test);
+        System.out.println("试一试输出不");
         model.addAttribute("hello", test + "<br>" + test2);
         model.addAttribute("resultlist", list);
         // model.addAttribute("pageList", pageResult.getR());
