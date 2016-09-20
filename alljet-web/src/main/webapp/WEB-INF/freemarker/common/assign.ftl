@@ -4,7 +4,7 @@
 <#assign foot_phone='(021) 000-0000'>
 <#assign foot_email='alljet@163.com'>
 <#assign foot_qq='534700927'>
-<#assign foot_copyright_design='&copy;Studio AllJet™.'>
+<#assign foot_copyright_design='&copy;AllJet office™.'>
 <#assign foot_copyright_design_url='http://www.alljet.icoc.in/'>
 <#assign foot_copyright_author='十七菌不是MADAO的夜飞猫 '>
 <#assign foot_copyright_author_url='#'>
