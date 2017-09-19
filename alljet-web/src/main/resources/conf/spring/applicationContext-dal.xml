@@ -36,22 +36,22 @@
 			</map>
 		</property>
 	</bean>
-
+	<!-- <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> -->
 	<bean id="dataSourceOne" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${alljet.driverClassname}" />
-		<property name="url" value="${alljet.ds.url}" />
-		<property name="username" value="${alljet.ds.username}" />
-		<property name="password" value="${alljet.ds.password}" />
+		<property name="driverClassName" value="${jdbc.driverClassname}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 		<!-- 连接池的最大值 --> 
-		<!-- <property name="maxActive" value="${alljet.ds.maxActive}" /> -->
+		<!-- <property name="maxActive" value="${jdbc.maxActive}" /> -->
 		<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 --> 
-		<!-- <property name="maxIdle" value="${alljet.ds.maxIdle}" /> -->
+		<!-- <property name="maxIdle" value="${jdbc.maxIdle}" /> -->
 		<!--  最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
-		<!-- <property name="minIdle" value="${alljet.ds.minIdle}" /> -->
-		<!-- <property name="maxWait" value="${alljet.ds.maxWait}" /> -->
-		<!-- <property name="testOnBorrow" value="${alljet.ds.testOnBorrow}" /> -->
-		<!-- <property name="timeBetweenEvictionRunsMillis" value="${alljet.ds.timeBetweenEvictionRunsMillis}" /> -->
-		<!-- <property name="minEvictableIdleTimeMillis" value="${alljet.ds.minEvictableIdleTimeMillis}" />
+		<!-- <property name="minIdle" value="${jdbc.minIdle}" /> -->
+		<!-- <property name="maxWait" value="${jdbc.maxWait}" /> -->
+		<!-- <property name="testOnBorrow" value="${jdbc.testOnBorrow}" /> -->
+		<!-- <property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" /> -->
+		<!-- <property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
 		 -->
 	</bean>
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  

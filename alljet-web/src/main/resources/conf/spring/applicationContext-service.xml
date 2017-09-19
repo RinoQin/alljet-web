@@ -35,31 +35,11 @@
     <import resource="classpath:conf/spring/applicationContext-dal.xml" />
 	
 	<!-- redis-cache -->
-	<import resource="classpath:conf/spring/applicationContext-redis-caches.xml" />
+	<!-- <import resource="classpath:conf/spring/applicationContext-redis-caches.xml" /> -->
 	
 	<!-- redis-cache -->
 	<!-- <import resource="classpath:conf/spring/applicationContext-redis-sentinel-caches.xml" /> -->
 	
-
-	
-
-	<context:component-scan base-package="org.alljet.web"></context:component-scan>
-
 	<!--<bean id="constantCodeInit" class="com.saic.ebiz.constant.ConstantCodeInit" />-->
 	
-	<!-- 默认线程池 -->
-	<bean id="threadPoolTaskExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<!-- 线程池所使用的缓冲队列 -->
-		<property name="queueCapacity" value="1000" />
-		<!-- 线程池维护线程的最少数量 -->
-		<property name="corePoolSize" value="7" />
-		<!-- 线程池维护线程的最大数量 -->
-		<property name="maxPoolSize" value="7" />
-		<!-- 线程池维护线程所允许的空闲时间 -->
-		<property name="keepAliveSeconds" value="300" />
-		<!-- true使用ThreadPool的shutdownNow()方法来关闭 -->
-		<property name="WaitForTasksToCompleteOnShutdown" value="true" />
-	</bean>
-
 </beans>

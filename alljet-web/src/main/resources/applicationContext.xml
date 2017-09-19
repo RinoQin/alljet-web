@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:p="http://cxf.apache.org/policy" xmlns:ss="http://www.springframework.org/schema/security"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd 
+   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+   	http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+   	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+   	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+   	http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd 
+   	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd 
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.1.xsd
+   	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+   	default-lazy-init="true">
+   	
+   	<context:annotation-config />
+	<context:property-placeholder location="classpath:application.properties" />
+	
+	<!--  基于JDK动态代理 ，可以将@Transactional放置在接口和具体类上。
+		    基于CGLIB类代理，只能将@Transactional放置在具体类上。 -->
+	<!-- switch expose aop proxy for threadlocal support -->
+	<!-- XML configuration Support -->
+	<!-- <aop:config expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:config proxy-target-class="true"/>
+	
+	<!-- Define aspectj for which class not interfaced forced to Cglib, since jdk proxy not supported-->
+	<!-- Annotation Support -->
+	<!-- <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<import resource="classpath:conf/spring/applicationContext-service.xml" />
+	<!-- <context:component-scan base-package="org.alljet.web"></context:component-scan> -->
+	<!-- 使用Annotation自动注册Bean，解决事务失效问题：主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。
+		Use-dafault-filters="true"的情况下：<context:exclude-filter>生效，<context:include-filter>无效
+		Use-dafault-filters="false"的情况下：<context:exclude-filter>生效，<context:include-filter>生效 
+		base-package 如果多个，用","分隔  -->
+	<context:component-scan base-package="org.alljet">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	<!-- <context:component-scan base-package="org.alljet.web.*.service"></context:component-scan>
+	<context:component-scan base-package="org.alljet.web.*.service.impl"></context:component-scan> -->
+   	
+   	
+   	<!--定时任务 -->
+	<!-- 定时任务线程池化 -->
+	<!-- <task:executor id="executor" pool-size="10" /> -->
+	<!--  -->
+    <!-- <task:scheduler id="scheduler" pool-size="5" /> -->
+    <!-- 开启这个配置，spring才能识别@Scheduled注解 -->
+    <!-- <task:annotation-driven executor="executor" scheduler="scheduler" />
+     -->
+	<!-- <task:annotation-driven /> -->
+	<!-- 或许配置定时任务线程池话要用到这个东西吧，不太清楚
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
+	 -->
+	<!-- 或许配置定时任务线程池话要用到默认线程池吧-->
+   	<!-- 默认线程池 -->
+	<bean id="threadPoolTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="queueCapacity" value="200" />
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="7" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="7" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="300" />
+		<!-- true使用ThreadPool的shutdownNow()方法来关闭 -->
+		<property name="WaitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
+</beans>

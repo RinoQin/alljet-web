@@ -23,7 +23,11 @@
 			<artifactId>junit</artifactId>
 			<version>4.9</version>
 		</dependency>
-
+		<dependency>
+  			<groupId>javax.servlet</groupId>
+ 			<artifactId>javax.servlet-api</artifactId>
+  			<version>4.0.0</version>
+		</dependency>
 
 		<!-- <dependency> <groupId>commons-pool</groupId> <artifactId>commons-pool</artifactId> 
 			<version>1.6</version> </dependency> -->
@@ -151,7 +155,7 @@
 
 
 		<!--message -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.wondertek</groupId>
 			<artifactId>empp</artifactId>
 			<version>0.1.1</version>
@@ -160,7 +164,7 @@
 			<groupId>org.eweb4j</groupId>
 			<artifactId>fel</artifactId>
 			<version>0.8</version>
-		</dependency>
+		</dependency> -->
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -329,7 +333,18 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.12</version>
 		</dependency>
-
+		<dependency>
+		  <groupId>com.oracle</groupId>
+		  <artifactId>ojdbc6</artifactId>
+		  <version>11.2.0.4</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>druid</artifactId>
+		    <version>1.0.29</version>
+		</dependency>
 	</dependencies>
 
 	<properties>

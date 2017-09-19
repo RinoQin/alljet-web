@@ -22,12 +22,28 @@
 
 	<context:annotation-config />
 	<context:property-placeholder location="classpath:application.properties" />
-	<import resource="classpath:conf/spring/applicationContext-service.xml" />
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<context:component-scan base-package="org.alljet.api"></context:component-scan>
-	<context:component-scan base-package="org.alljet.web"></context:component-scan>
-	<context:component-scan base-package="org.alljet.web.*.service"></context:component-scan>
-	<context:component-scan base-package="org.alljet.web.*.service.impl"></context:component-scan>
+	
+	<!--  基于JDK动态代理 ，可以将@Transactional放置在接口和具体类上。
+		    基于CGLIB类代理，只能将@Transactional放置在具体类上。 -->
+	<!-- switch expose aop proxy for threadlocal support -->
+	<!-- XML configuration Support -->
+	<!-- <aop:config expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:config proxy-target-class="true"/>
+	
+	<!-- Define aspectj for which class not interfaced forced to Cglib, since jdk proxy not supported-->
+	<!-- Annotation Support -->
+	<!-- <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/> -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- <context:component-scan base-package="org.alljet.web"></context:component-scan> -->
+	<!-- 使用Annotation自动注册Bean，在SpringMvc中只扫描@Controller注解。
+		Use-dafault-filters=”true”的情况下：<context:exclude-filter>生效，<context:include-filter>无效
+		Use-dafault-filters=”false”的情况下：<context:exclude-filter>生效，<context:include-filter>生效 
+		base-package 如果多个，用“,”分隔   -->
+	<context:component-scan base-package="org.alljet" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
 	<mvc:annotation-driven conversion-service="conversionService" />
 	<!-- intercepter exclude begin -->
 	<!-- <mvc:interceptors>
@@ -179,8 +195,8 @@
 		</property>
 		<property name="statusCodes">
 			<props>
-				<prop key="errors/error">500</prop>
-				<prop key="errors/404">404</prop>
+				<prop key="error/500">500</prop>
+				<prop key="error/404">404</prop>
 			</props>
 		</property>
 		<property name="warnLogCategory" value="WARN"></property>
@@ -192,40 +208,5 @@
     <!--处理静态资源被“/”所拦截的问题-->
     <mvc:default-servlet-handler/>
 
-	<!--定时任务 -->
-	<!-- 定时任务线程池化 -->
-	<!-- <task:executor id="executor" pool-size="10" /> -->
-	<!--  -->
-    <!-- <task:scheduler id="scheduler" pool-size="5" /> -->
-    <!-- 开启这个配置，spring才能识别@Scheduled注解 -->
-    <!-- <task:annotation-driven executor="executor" scheduler="scheduler" />
-     -->
-	<!-- <task:annotation-driven /> -->
-	<!-- 或许配置定时任务线程池话要用到这个东西吧，不太清楚
-	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
-	 -->
-	<!-- 或许配置定时任务线程池话要用到默认线程池吧
-	<bean id="threadPoolTaskExecutor" 
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
-		<property name="queueCapacity" value="1000" /> 
-		<property name="corePoolSize" value="10" /> 
-		<property name="maxPoolSize" value="10" /> 
-		<property name="keepAliveSeconds" value="300" /> 
-		<property name="WaitForTasksToCompleteOnShutdown" value="true" /> 
-		</bean> -->
-		
-	<!-- 默认线程池 -->
-	<bean id="threadPoolTaskExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<!-- 线程池所使用的缓冲队列 -->
-		<property name="queueCapacity" value="200" />
-		<!-- 线程池维护线程的最少数量 -->
-		<property name="corePoolSize" value="7" />
-		<!-- 线程池维护线程的最大数量 -->
-		<property name="maxPoolSize" value="7" />
-		<!-- 线程池维护线程所允许的空闲时间 -->
-		<property name="keepAliveSeconds" value="300" />
-		<!-- true使用ThreadPool的shutdownNow()方法来关闭 -->
-		<property name="WaitForTasksToCompleteOnShutdown" value="true" />
-	</bean>
+	
 </beans>
