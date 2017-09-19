@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: Excel2007Reader.java
  * Author:   v_qinyuchen
  * Date:     2016年1月12日 下午1:43:37

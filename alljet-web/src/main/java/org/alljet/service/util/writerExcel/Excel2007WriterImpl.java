@@ -1,5 +1,4 @@
 /*
- * Copyright (C), 2013-2016, 上海汽车集团股份有限公司
  * FileName: Excel2007WriterImpl.java
  * Author:   v_qinyuchen
  * Date:     2016年1月18日 上午11:44:59
