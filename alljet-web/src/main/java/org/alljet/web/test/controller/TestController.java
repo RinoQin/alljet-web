@@ -101,7 +101,9 @@ public class TestController {
 
     @RequestMapping("/restDemo")
     public String getRestDemo(Model model) {
-
+    	log.debug("debugger的日志");
+    	log.info("info的日志");
+    	log.error("error的日志");
         return "restful.html";
     }
 

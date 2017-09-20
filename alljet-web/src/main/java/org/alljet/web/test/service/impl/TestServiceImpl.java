@@ -117,10 +117,15 @@ public class TestServiceImpl implements ITestService {
     @Override
     @Cacheable("cacheManager")
     public List<TestVO> getTestList() {
+    	try{
         String sql = BASE_SQL_PATH_TEST + "getTestList";
         List<TestVO> result = dalClient.queryForList(sql, new TestVO(), TestVO.class, 4);
         System.out.println("没走缓存4");
         return result;
+    	}catch(Exception e){
+    		log.error("error了：",e);
+    		return null;
+    	}
     }
 
     @Override
@@ -140,11 +145,17 @@ public class TestServiceImpl implements ITestService {
     @Override
     @Cacheable("cacheTestVO")
     public TestPO getTestPOById(Long id) {
+    	
         TestPO vo = new TestPO();
+    try{
         vo.setId(id);
         vo = dalClient.find(TestPO.class, vo);
         System.out.println("没走缓存3");
-        return vo;
+        
+    }catch(Exception e){
+    	log.error("测试error：",e.getMessage());
+    }
+    return vo;
     }
 
 }

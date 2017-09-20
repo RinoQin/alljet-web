@@ -1,16 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Copyright 2010-2011 The myBatis Team
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 <configuration>
 	<!--======================================= 本地变量 ========================================-->
 	<!--在没有定义${LOG_HOME}系统变量的时候，可以设置此本地变量。提交测试、上线时，要将其注释掉，使用系统变量。-->
@@ -26,31 +14,63 @@ limitations under the License.
 	<property name="LOG_SYS_HOME" value="${LOG_HOME}/${APP_NAME}/sys" />
 
 	<!--=========================== 按照每天生成日志文件：默认配置===================================-->
-	<!-- 控制台输出 -->
+	<!-- 控制台输出日志 -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			<pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level [%logger{60}] %msg %n</pattern>
 		</encoder>
 	</appender>
+	
 	<!-- 按照每天生成日志文件：主项目日志 -->
-	<appender name="APP"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<!-- 文件输出日志 (文件大小策略进行文件输出，每天产生一个日志文件给异常监控平台进行分析) -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_APP_HOME}/alljet-web.log</File>
+		<!-- 日志文件rolling策略 -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!--日志文件输出的文件名-->
-			<FileNamePattern>${LOG_APP_HOME}/alljet-web.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<FileNamePattern>${LOG_APP_HOME}/alljet-web_%d{yyyy-MM-dd}.%i.log</FileNamePattern>
 			<!--日志文件保留天数-->
-			<MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
+			<maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+			<!-- 按时间滚动的同时，按文件大小来滚动 -->  
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">  
+                 <maxFileSize>100MB</maxFileSize>  
+            </timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
+		<!-- 日志输出格式 -->
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			<!--格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+			<pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level [%logger{60}] %msg %n</pattern>
 		</encoder>
 	</appender>
+	
+	<!-- 文件输出日志 (文件大小策略进行文件输出，每天产生一个日志文件给异常监控平台进行分析) -->
+	<appender name="ERRORFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_APP_HOME}/alljet-web_error.log</File>
+		<!-- 日志文件rolling策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_APP_HOME}/alljet-web_error_%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+			<!-- 按时间滚动的同时，按文件大小来滚动生成 -->  
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">  
+                 <maxFileSize>100MB</maxFileSize>  
+            </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+ 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+          <level>ERROR</level>
+          <onMatch>ACCEPT</onMatch>
+          <onMismatch>DENY</onMismatch>
+        </filter>
+		<!-- 日志输出格式 -->
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level [%logger{60}] %msg %n</pattern>
+		</encoder>
+	</appender>
+	
 	<!-- 按照每天生成日志文件：主项目日志 -->
 	<appender name="FRAMEWORK"  class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名-->
-			<FileNamePattern>${LOG_APP_HOME}/alljet-framework.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<FileNamePattern>${LOG_SYS_HOME}/alljet-framework_%d{yyyy-MM-dd}.log</FileNamePattern>
 			<!--日志文件保留天数-->
 			<MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
 		</rollingPolicy>
@@ -62,7 +82,7 @@ limitations under the License.
 	
 	<appender name="SERVICE-INVOKER" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${LOG_APP_HOME}/service-invoker.log.%d{yyyy-MM-dd}</FileNamePattern>
+			<FileNamePattern>${LOG_APP_HOME}/service-invoker_%d{yyyy-MM-dd}.log</FileNamePattern>
 			<MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
 		</rollingPolicy>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -70,20 +90,29 @@ limitations under the License.
 		</encoder>
 	</appender>
 	
+	<!-- logback日志打印由于同步打印会消耗性能，都需采用异步打印日志；异步打印日志配置，
+	根据应用情况来设置discardingThreshold，discardingThreshold为1时在日志量打印较多的情况下会存在日志丢失的情况，
+	discardingThreshold为0时日志不会丢失。但discardingThreshold为1的在并发量高的情况性能远远高于discardingThreshold为0。
+	如果对日志要求不高的情况下建议一律配置为1。-->
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+	    <queueSize>10000</queueSize>
+	    <appender-ref ref="FILE" />
+	</appender>
 	
 	<!--============================= 按照每天生成日志文件：业务定制日志：发送邮件业务日志========================-->
 	
 	 <!--=============================== 日志输出: Jodis日志 ====================================== -->
      <!-- 按照每天生成日志文件：统一配置日志 -->   
-    <appender name="REDIS"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+   <!--  <appender name="REDIS"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
+            日志文件输出的文件名
         <FileNamePattern>${LOG_SYS_HOME}/alljet-redis.log.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--日志文件保留天数-->
+            日志文件保留天数
          <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
         </rollingPolicy>   
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符
          <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>   
         </encoder>
     </appender>
@@ -91,14 +120,21 @@ limitations under the License.
     <logger name="com.saic.framework.redis.client" additivity="true">
         <level value="info" />
         <appender-ref ref="REDIS" />
-    </logger>
+    </logger> -->
 	
 	
 	<!--===============================  日志输出: 默认主业务日志 ======================================-->
+	
+	
 	<root level="info">
-		<appender-ref ref="APP" />
+		<appender-ref ref="ASYNC" />
+		<appender-ref ref="ERRORFILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
+	
+	<!-- additivity的作用在于 children-logger是否使用 rootLogger配置的appender进行输出。
+		false：表示只用当前logger的appender-ref。
+		true：表示当前logger的appender-ref和rootLogger的appender-ref都有效。 -->
 	
 	<logger name="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" additivity="false">
 		<level value="debug" />
@@ -109,15 +145,35 @@ limitations under the License.
 		<appender-ref ref="STDOUT" />
 	</logger>
 	
-	<logger name="org.alljet.web">
+	<logger name="org.alljet">
     	<level value="debug" />
 	</logger>
-	<logger name="org.alljet.dal">
-    	<level value="debug" />
+	
+	
+	
+	
+	
+	
+	<!-- <logger name="org" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="ASYNC" />
+		<appender-ref ref="ERRORFILE" />
 	</logger>
-	<logger name="org.alljet.common">
-    	<level value="debug" />
+		
+	<logger name="java" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="ASYNC" />
+		<appender-ref ref="ERRORFILE" />
 	</logger>
-
+			
+	<logger name="com" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="ASYNC" />
+		<appender-ref ref="ERRORFILE" />
+	</logger> -->
+	
+	
+	
+	
 	
 </configuration>
