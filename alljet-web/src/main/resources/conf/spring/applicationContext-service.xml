@@ -34,11 +34,8 @@
 
     <import resource="classpath:conf/spring/applicationContext-dal.xml" />
 	
-	<!-- redis-cache -->
-	<!-- <import resource="classpath:conf/spring/applicationContext-redis-caches.xml" /> -->
-	
-	<!-- redis-cache -->
-	<!-- <import resource="classpath:conf/spring/applicationContext-redis-sentinel-caches.xml" /> -->
+	<!-- cache -->
+	<!-- <import resource="classpath:conf/spring/applicationContext-cache.xml" /> -->
 	
 	<!--<bean id="constantCodeInit" class="com.saic.ebiz.constant.ConstantCodeInit" />-->
 	
