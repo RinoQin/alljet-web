@@ -136,21 +136,23 @@
 		false：表示只用当前logger的appender-ref。
 		true：表示当前logger的appender-ref和rootLogger的appender-ref都有效。 -->
 	
-	<logger name="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" additivity="false">
+	<!-- <logger name="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="STDOUT" />
-	</logger>
+	</logger> -->
 	
 	<logger name="org.alljet">
     	<level value="debug" />
 	</logger>
 	
-	
-	
+	<logger name="log4j.logger.druid" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="STDOUT" />
+	</logger>
 	
 	
 	
