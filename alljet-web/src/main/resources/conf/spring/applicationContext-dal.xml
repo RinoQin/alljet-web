@@ -77,20 +77,47 @@
       	<property name="poolPreparedStatements" value="true" />
       	<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
    
-      	<!-- 配置监控统计拦截的filters -->
-     	<!-- <property name="filters" value="stat" /> -->
+      	<!-- 配置监控统计拦截的filters wall是拦截检测可防sql注入，value里的filters按先后顺序执行-->
+     	<!-- <property name="filters" value="stat,wall,slf4j" /> -->
      	<property name="proxyFilters">
 			<list>
 				<ref bean="stat-filter" />
+				<ref bean="wall-filter"/>
+				<ref bean="log-filter"/>
 			</list>
 		</property>
 		<property name="useGlobalDataSourceStat" value="true" />
 	</bean>
 	
 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<!-- 慢SQL记录标准 slowSqlMillis的缺省值为3000，也就是3秒 -->
 		<property name="slowSqlMillis" value="10000" />
+		<!-- logSlowSql 慢sql日志 -->
 		<property name="logSlowSql" value="true" />
+		<!-- SQL统计合并 -->
 		<property name="mergeSql" value="true" />
+	</bean>
+	
+	<bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
+      <!-- 指定配置装载的目录  -->
+      <property name="dir" value="META-INF/druid/wall/oracle" />
+      <!-- 如果把selectIntoAllow、deleteAllow、updateAllow、insertAllow、mergeAllow都设置为false，
+      	这就是一个只读数据源了。 ## 拦截配置－永真条件 -->
+      
+  	</bean>
+	<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+      <!-- <property name="dbType" value="mysql" /> -->
+      <property name="dbType" value="oracle" />
+      <property name="config" ref="wall-filter-config" />
+      <!-- 对被认为是攻击的SQL进行LOG.error输出 -->
+      <property name="logViolation" value="true"/>
+      <!-- 对被认为是攻击的SQL抛出SQLExcepton -->
+      <property name="throwException" value="false"/>
+  	</bean>
+	
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+    	<property name="resultSetLogEnabled" value="false" />
+    	<property name="statementExecutableSqlLogEnable" value="true" />
 	</bean>
 	
 	
