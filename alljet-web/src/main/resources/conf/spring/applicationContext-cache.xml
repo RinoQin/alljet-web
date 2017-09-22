@@ -20,11 +20,32 @@
 	<cache:annotation-driven cache-manager="cacheManager"
 		key-generator="redisKeyGenerator" />
 		
-	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+	<bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">  
+	    <property name="cacheManagers">  
+	        <list>  
+	            <ref bean="ehcacheManager"/>  
+	            <ref bean="rediscacheManager"/>  
+	        </list>  
+	    </property>  
+	    <property name="fallbackToNoOpCache" value="true"/>  
+	</bean>
+	
+	<bean id="rediscacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
 		<constructor-arg ref="redisTemplate" />
 		<property name="defaultExpiration" value="3000" />
 	</bean>
 	
 	<bean id="redisKeyGenerator" class="org.alljet.common.key.RedisKeyGenerator"></bean>
+	
+	
+	<!-- cacheManager工厂类，指定ehcache.xml的位置 -->     
+    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">    
+        <property name="configLocation"  value="classpath:cache/ehcache.xml"/>    
+    </bean>  
+      
+    <!-- 声明cacheManager -->    
+    <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
+        <property name="cacheManager" ref="cacheManagerFactory"/>  
+    </bean>  
 
 </beans>
