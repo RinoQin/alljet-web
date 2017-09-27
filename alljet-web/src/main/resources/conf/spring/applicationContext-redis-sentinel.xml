@@ -88,4 +88,30 @@
 		/> -->
 	<!-- </bean> -->
 
+
+	<!-- sharding -->
+   <!--  <bean id="jedis.shardInfo" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg index="0" value="${redis.host1}" />
+		<constructor-arg index="1" value="${redis.port1}" />
+		<constructor-arg index="2" value="${redis.timeout}" />
+		<constructor-arg index="3" value="shardInfo-0" />
+		<property name="password" value="${redis.pass1}" /> 
+	</bean>  
+	<bean id="jedis.shardInfo1" class="redis.clients.jedis.JedisShardInfo">
+		<constructor-arg index="0" value="${redis.host2}" />
+		<constructor-arg index="1" value="${redis.port2}" />
+		<constructor-arg index="2" value="${redis.timeout}" />
+		<constructor-arg index="3" value="shardInfo-1" />
+		<property name="password" value="${redis.pass2}" /> 
+	</bean>
+	jedis shard pool配置
+	<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+		<constructor-arg index="0" ref="poolConfig" />
+		<constructor-arg index="1">
+			<list>
+				<ref bean="jedis.shardInfo" />
+				<ref bean="jedis.shardInfo1" />
+			</list>
+		</constructor-arg>
+	</bean>  -->
 </beans>

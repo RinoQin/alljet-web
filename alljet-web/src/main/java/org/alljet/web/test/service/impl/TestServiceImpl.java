@@ -22,6 +22,7 @@ import org.alljet.web.test.vo.TestVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,9 @@ public class TestServiceImpl implements ITestService {
 
         return "Hello!This is AllJet team.";
     }
-
+    
+    //清除掉指定key的缓存    
+    @CacheEvict(value="sampleCache",key="org.alljet.web.test.service.impl.TestServiceImplgetTestPOById42")
     @Override
     public String testReturn() {
         jdbcTemplate.execute(insertSql1);
@@ -67,6 +70,8 @@ public class TestServiceImpl implements ITestService {
         return "Hello!This is AllJet team.";
     }
 
+    //清除掉全部缓存    
+    @CacheEvict(value="sampleCache",allEntries=true)
     @Override
     public String callbackTestClient() {
         // String siql1 = "insert t_test(test_name,test_value)values(:testName,:testValue)";
@@ -92,7 +97,7 @@ public class TestServiceImpl implements ITestService {
     }
 
     @Override
-    @Cacheable("pageListTestVo")
+    @Cacheable(value="sampleCache")
     public PaginationResult<List<TestVO>> getTestListPage(Pagination pagination, TestVO queryVo) {
         String sql = BASE_SQL_PATH_TEST + "getTestList";
         PaginationResult<List<TestVO>> resultList = dalClient.queryForList(sql, queryVo, TestVO.class, pagination);
@@ -104,7 +109,7 @@ public class TestServiceImpl implements ITestService {
      * {@inheritDoc}
      */
     @Override
-    // @Cacheable("listTestVo")
+    // @Cacheable(value="sampleCache")
     public List<TestVO> getTestList(TestVO queryVo) {
         String sql = BASE_SQL_PATH_TEST + "getTestList";
         List<TestVO> result = dalClient.queryForList(sql, queryVo, TestVO.class, 5);
@@ -115,7 +120,7 @@ public class TestServiceImpl implements ITestService {
      * {@inheritDoc}
      */
     @Override
-    @Cacheable("cacheManager")
+    @Cacheable(value="sampleCache")
     public List<TestVO> getTestList() {
     	try{
         String sql = BASE_SQL_PATH_TEST + "getTestList";
@@ -129,21 +134,21 @@ public class TestServiceImpl implements ITestService {
     }
 
     @Override
-    @Cacheable("cacheManager")
+    @Cacheable(value="sampleCache")
     public String getMessage() {
         System.out.println("没走缓存1");
         return "Hello!This is AllJet team & this is Dalclient cache.";
     }
 
     @Override
-    @Cacheable("cacheManager")
+    @Cacheable(value="sampleCache")
     public String getMessage2() {
         System.out.println("没走缓存2");
         return "Hello!This is AllJet team & this is Dalclient & has cache.";
     }
 
     @Override
-    @Cacheable("cacheTestVO")
+    @Cacheable(value = "sampleCache")
     public TestPO getTestPOById(Long id) {
     	
         TestPO vo = new TestPO();

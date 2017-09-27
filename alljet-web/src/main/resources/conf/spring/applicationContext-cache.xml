@@ -11,24 +11,20 @@
 	
 	<aop:aspectj-autoproxy />
 	
-	<!-- redis-cache -->
-	<import resource="classpath:conf/spring/applicationContext-redis.xml" />
 	
-	<!-- redis-cache -->
-	<!-- <import resource="classpath:conf/spring/applicationContext-redis-sentinel.xml" /> -->
 	
-	<cache:annotation-driven cache-manager="cacheManager"
+	<cache:annotation-driven cache-manager="ehcacheManager"
 		key-generator="redisKeyGenerator" />
 		
-	<bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">  
+	<!-- <bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">  
 	    <property name="cacheManagers">  
 	        <list>  
 	            <ref bean="ehcacheManager"/>  
-	            <ref bean="rediscacheManager"/>  
+	           <ref bean="rediscacheManager"/>
 	        </list>  
 	    </property>  
 	    <property name="fallbackToNoOpCache" value="true"/>  
-	</bean>
+	</bean> -->
 	
 	<bean id="rediscacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
 		<constructor-arg ref="redisTemplate" />
@@ -38,14 +34,14 @@
 	<bean id="redisKeyGenerator" class="org.alljet.common.key.RedisKeyGenerator"></bean>
 	
 	
-	<!-- cacheManager工厂类，指定ehcache.xml的位置 -->     
-    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">    
+	<!-- ehcacheManager工厂类，指定ehcache.xml的位置 -->     
+    <bean id="ehcacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">    
         <property name="configLocation"  value="classpath:cache/ehcache.xml"/>    
     </bean>  
       
-    <!-- 声明cacheManager -->    
+    <!-- 声明ehcacheManager -->    
     <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
-        <property name="cacheManager" ref="cacheManagerFactory"/>  
+        <property name="cacheManager" ref="ehcacheManagerFactory"/>  
     </bean>  
 
 </beans>
