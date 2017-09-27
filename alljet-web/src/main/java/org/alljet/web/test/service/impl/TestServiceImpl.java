@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,9 @@ public class TestServiceImpl implements ITestService {
     }
 
     @Override
+    @Caching(/*cacheable = @Cacheable("sampleCache"),*/ evict = { 
+    	 @CacheEvict(value="sampleCache",key="org.alljet.web.test.service.impl.TestServiceImplgetTestPOById42"),
+    	 @CacheEvict(value = "defaultCache", allEntries = true) })
     public String testObjectClient() {
         String sql = BASE_SQL_PATH_TEST + "removeTestByTestName";
         TestPO po = new TestPO();

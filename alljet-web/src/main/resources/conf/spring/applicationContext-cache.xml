@@ -14,7 +14,7 @@
 	
 	
 	<cache:annotation-driven cache-manager="ehcacheManager"
-		key-generator="redisKeyGenerator" />
+		key-generator="cacheKeyGeneratorMethodName" />
 		
 	<!-- <bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">  
 	    <property name="cacheManagers">  
@@ -31,7 +31,7 @@
 		<property name="defaultExpiration" value="3000" />
 	</bean>
 	
-	<bean id="redisKeyGenerator" class="org.alljet.common.key.RedisKeyGenerator"></bean>
+	<bean id="cacheKeyGeneratorMethodName" class="org.alljet.common.key.CacheKeyGeneratorMethodName"></bean>
 	
 	
 	<!-- ehcacheManager工厂类，指定ehcache.xml的位置 -->     

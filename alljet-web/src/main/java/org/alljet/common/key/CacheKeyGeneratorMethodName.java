@@ -21,7 +21,7 @@ import org.springframework.cache.interceptor.KeyGenerator;
  * @see [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
-public class RedisKeyGenerator implements KeyGenerator {
+public class CacheKeyGeneratorMethodName implements KeyGenerator {
 
     /**
      * {@inheritDoc}
