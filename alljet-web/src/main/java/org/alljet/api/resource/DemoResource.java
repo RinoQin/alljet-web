@@ -22,6 +22,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.alljet.api.entity.DemoEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -39,10 +41,14 @@ import org.springframework.stereotype.Component;
 // 不注入到spring中前台的json是不能转换为实体对象的，把普通pojo实例化到spring容器中，相当于配置文件中的<bean id="" class=""/>
 @Path("v2/resource/demo")
 public class DemoResource {
+	
+	/** log */
+    private static final Logger log = LoggerFactory.getLogger(DemoResource.class);
 
     @Produces(MediaType.APPLICATION_JSON)
     @GET
     public String get(@QueryParam("username") String username) {
+    	log.debug("{\"get\":\"" + username + "\"}");
         return "{\"get\":\"" + username + "\"}";
     }
 
@@ -50,7 +56,7 @@ public class DemoResource {
     @POST
     @Path("id/{id}")
     public String post(@PathParam("id") String id) {
-
+    	log.debug("{\"post\":\"" + id + "\"}");
         return "{\"post\":\"" + id + "\"}";
     }
 
@@ -58,6 +64,7 @@ public class DemoResource {
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
     public String put(DemoEntity student) {
+    	log.debug("{\"put\":\"" + student.getTestName() + "\"}");
         return "{\"put\":\"" + student.getTestName() + "\"}";
     }
 
@@ -65,6 +72,7 @@ public class DemoResource {
     @DELETE
     @Path("del/{username}")
     public String delete(@PathParam("username") String username) {
+    	log.debug("{\"del\":\"" + username + "\"}");
         return "{\"del\":\"" + username + "\"}";
     }
 
