@@ -1,5 +1,5 @@
-<#include "/common/top.ftl" />
-<#include "/common/wrapper.ftl" />
+<#include "/WEB-INF/freemarker/common/top.ftl" />
+<#include "/WEB-INF/freemarker/common/wrapper.ftl" />
 <div id="main" class="wrapper style1">
 <h3>${hello}</h3>
 <table>

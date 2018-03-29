@@ -9,7 +9,7 @@
 	xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:cache="http://www.springframework.org/schema/cache">
 
-	
+
 
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<!-- 最大空闲连接数 -->
@@ -34,7 +34,7 @@
 		 p:pool-config-ref="poolConfig" 
 		 p:host-name="${redis.host}" p:port="${redis.port_no_sentinel}" p:password="${redis.pass}"
 		/>
-	
+
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />

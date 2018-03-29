@@ -26,10 +26,10 @@
 	    <property name="fallbackToNoOpCache" value="true"/>  
 	</bean> -->
 	
-	<bean id="rediscacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+	<!--　没有redis <bean id="rediscacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
 		<constructor-arg ref="redisTemplate" />
 		<property name="defaultExpiration" value="3000" />
-	</bean>
+	</bean>-->
 	
 	<bean id="cacheKeyGeneratorMethodName" class="org.alljet.common.key.CacheKeyGeneratorMethodName"></bean>
 	
