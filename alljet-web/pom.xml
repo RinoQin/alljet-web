@@ -333,6 +333,8 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.12</version>
 		</dependency>
+
+		<!-- mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Dpackaging=jar -Dfile=ojdbc6.jar -->
 		<dependency>
 		  <groupId>com.oracle</groupId>
 		  <artifactId>ojdbc6</artifactId>
