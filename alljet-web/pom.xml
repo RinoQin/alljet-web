@@ -3,9 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.alljet</groupId>
 	<artifactId>alljet-web</artifactId>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>alljet-web</name>
+    <modules>
+        <module>../alljet-common-dal</module>
+    </modules>
+    <name>alljet-web</name>
 	<url>http://www.alljet.icoc.in/</url>
 	<dependencies>
 		<dependency>
